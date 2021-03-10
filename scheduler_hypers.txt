@@ -1,0 +1,25 @@
+Resnet101:
+    (Run 5) ASWT Model 1: gamma=0.6, n = 17, slackProp=0.35, init_lr = 0.1 Repeat Run 18-26 (X)
+    (Run 6) ASWT Model 2: gamma=0.6, n = 17, slackProp=0.05, init_lr = 0.1 Repeat Run 27-35 (X)
+    
+GoogleNet:
+    (Run 5) ASWT Model 1: gamma=0.76, n = 19, slackProp=.05, init_lr = 0.1 Repeat Run 18-26 (X)
+    (Run 6) ASWT Model 2: gamma=0.76, n = 19, slackProp=.35, init_lr = 0.1 Repeat Run 27-35 (X)
+ 
+StepLR:
+    (Run 7) gamma = 0.1, stepsize=50, init_lr = 0.1
+    (Run 11) gamma = 0.5, stepsize=50, init_lr = 0.1
+    (Run 14) gamma = 0.5, stepsize=50, init_lr = 0.25 Repeat Run 36-42, 150, 250 (ResNet: 40, 41, 250, GoogLeNet: 150, 250)
+
+ExponentialLR:
+    (Run 8) gamma = 0.9, init_lr = 0.1
+    (Run 12) gamma = 0.95, init_lr = 0.1
+ReduceLR:
+    (Run 9) gamma = 0.1, patience = 10, init_lr = 0.1
+    (Run 13) gamma = 0.1, patience = 20, init_lr = 0.1
+    (Run 15) gamma = 0.1, patience = 20, init_lr = 0.25 Repeat Run 43-51 (ResNet: X, GoogLeNet: X)
+CyclicLR:
+    "cyclic1" (Run 16) mode = triangular2, base_lr = 0.01, max_lr = 0.026, stepsizeup = 30000 Repeat Run 52-60 (ResNet:58, 59, 60, GoogLeNet: X)
+    "cyclic2" (Run 17) mode = triangular, base_lr = 0.1, max_lr = 0.3, stepsizeup = default
+ADAM:
+    (Run 10) LR = 0.1
