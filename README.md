@@ -1,4 +1,4 @@
-# early-stopping
+# This codebase is being actively maintained, please create and issue if you have issues using it
 
 ## Stop Criterion Analysis
 
