@@ -4,13 +4,18 @@
 
 All data files are included under losses and each folder. The main Augmented Shapiro-Wilk Stopping criterion is implemented in analysis.py, along with several helper functions and wrappers. The other comparison heuristics are also included in analysis.py, along with their wrappers. grapher.py contains all the code for generating the graphs used in the paper, and earlystopping_calculator.py includes code for generating tables and calculating some statistics from the data. hyperparameter_search.py contains all the code used to execute the grid-search on the ASWS method, along with the grid-search for the other heuristics.
 
+## Installing
+
+If you would like to try our code, you can clone this repository and then do `pip install ASWS/`
+
+
 ### Example
 
 If you wanted to try to determine the ASWS stopping point of a model, you can do so using the analysis.py file. If at anypoint during model training you wanted to perform
 the stop criterion test, you can do
 
 ```
-from analysis import aswt_stopping
+from ASWS.analysis import aswt_stopping
 
 test_acc = [] # for storing model accuracies
 for i in training_epochs:
@@ -34,7 +39,7 @@ for i in training_epochs:
 and if you already have finished training the model and wanted to determine the ASWS stopping point, you would need a CSV with columns Epoch, Training Loss, Training Acc, Test Loss, Test Acc. You could then use the following example
 
 ```
-from analysis import get_aswt_stopping_point_of_model, read_file
+from ASWS.analysis import get_aswt_stopping_point_of_model, read_file
 
 _, _, _, test_acc = read_file("modelaccuracy.csv")
 gamma = 0.5 # fill hyperparameters as desired
