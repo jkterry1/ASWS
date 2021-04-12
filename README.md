@@ -6,7 +6,7 @@ All data files are included under losses and each folder. The main Augmented Sha
 
 ## Installing
 
-If you would like to try our code, you can clone this repository and then do `pip install ASWS/`
+If you would like to try our code, just run `pip3 install git+https://github.com/justinkterry/ASWS`
 
 
 ### Example
