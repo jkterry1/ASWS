@@ -38,7 +38,7 @@ parser.add_argument('--epochs', default=400, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
-parser.add_argument('-b', '--batch-size', default=512, type=int,
+parser.add_argument('-b', '--batch-size', default=1024, type=int,
                     metavar='N',
                     help='mini-batch size (default: 512), this is the total '
                          'batch size of all GPUs on the current node when '
@@ -268,7 +268,7 @@ def main_worker(gpu, ngpus_per_node, args):
                 'best_acc1': best_acc1,
                 'optimizer' : optimizer.state_dict(),
             }, is_best, str(run_num))
-        log_line = str(epoch) + "," + str(total_train_loss) + "," + str(train_acc1) + "," + str(total_test_loss) + "," + str(acc1) + "\n"
+        log_line = str(epoch) + "," + str(total_train_loss) + "," + str(train_acc1.data[0]) + "," + str(total_test_loss) + "," + str(acc1.data[0]) + "\n"
         outfh.write(log_line)
         outfh.flush()
     outfh.close()
