@@ -268,7 +268,7 @@ def main_worker(gpu, ngpus_per_node, args):
                 'best_acc1': best_acc1,
                 'optimizer' : optimizer.state_dict(),
             }, is_best, str(run_num))
-        log_line = str(epoch) + "," + str(total_train_loss) + "," + str(train_acc1.data[0]) + "," + str(total_test_loss) + "," + str(acc1.data[0]) + "\n"
+        log_line = str(epoch) + "," + str(total_train_loss) + "," + str(train_acc1.item()) + "," + str(total_test_loss) + "," + str(acc1.item()) + "\n"
         outfh.write(log_line)
         outfh.flush()
     outfh.close()
