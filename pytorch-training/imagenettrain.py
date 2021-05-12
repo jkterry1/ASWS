@@ -45,9 +45,9 @@ parser.add_argument('-b', '--batch-size', default=1024, type=int,
                          'using Data Parallel or Distributed Data Parallel')
 parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
                     metavar='LR', help='initial learning rate', dest='lr')
-parser.add_argument('--momentum', default=0.0, type=float, metavar='M',
+parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                     help='momentum')
-parser.add_argument('--wd', '--weight-decay', default=0, type=float,
+parser.add_argument('--wd', '--weight-decay', default=0.0005, type=float,
                     metavar='W', help='weight decay (default: 0)',
                     dest='weight_decay')
 parser.add_argument('-p', '--print-freq', default=10, type=int,
