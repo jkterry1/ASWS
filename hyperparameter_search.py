@@ -1,6 +1,7 @@
 from analysis import fast_early_stopping_of_dataset
 from analysis import early_stopping_of_dataset
 from analysis import read_file
+from analysis2 import normality_stopping_of_dataset
 import analysis
 import argparse
 import threading
@@ -29,15 +30,16 @@ def parse_full_hp_set():
 
 def search_hyperparameters(hyperparams, accuracy_difference_threshold, model_test_accs, file_name):
     iterations = 0
+    total_iterations = len(hyperparams)
     output_file = open(file_name, "a")
-    for num_data, count, gam, loc, sp in hyperparams:
+    for num_data, k, t in hyperparams:
         num_data = int(num_data)
-        count = int(count)
         iterations = iterations + 1
+        print(str(iterations) + "/" + str(total_iterations) + "\n", flush=True)
         for model in model_names:
             test_accs = model_test_accs[model]
-            avg_std_epoch_diff, avg_std_acc_diff, avg_best_epoch_diff, avg_best_acc_diff = analysis.fast_early_stopping_of_dataset(test_accs, gam, num_data, count, local_maxima=loc, slack_prop=sp)
-            output_string = str(model) + "," + str(gam) + "," + str(count) + "," + str(num_data) + "," + str(loc) + "," + str(sp) + "," + str(avg_std_epoch_diff) + "," + str(avg_std_acc_diff) + "," + str(avg_best_epoch_diff) + "," + str(avg_best_acc_diff) + "\n"
+            avg_std_epoch_diff, avg_new_epoch_diff, avg_std_acc_diff, avg_new_acc_diff = normality_stopping_of_dataset(model, k, t, num_data)
+            output_string = str(model) + "," + str(k) + "," + str(t) + "," + str(num_data) + "," + str(avg_std_epoch_diff) + "," + str(avg_std_acc_diff) + "," + str(avg_new_epoch_diff) + "," + str(avg_new_acc_diff) + "\n"
             output_file.write(output_string)
     output_file.close()
 
@@ -356,7 +358,7 @@ def hp_search_new_heuristics():
 arg_model = parse_args()
 if arg_model in model_names:
     model_names = [arg_model]
-hp_filename = "hp_grid3_" +str(arg_model)
+hp_filename = "hp_grid4_" +str(arg_model)
 model_parameter_map = {
 "alexnet": 23272266,
 "fc1": 1352510,
@@ -379,22 +381,18 @@ for model in model_names:
         test_accs.append(test_acc)
     model_test_accs[model] = test_accs
 
-gamma_vals = [0] + list(np.linspace(0.1, 1, num=8, endpoint=False))
+k_vals = list(np.linspace(0.05, 2.5, num=10, endpoint=False))
+t_vals = list(np.linspace(0.05, 2.5, num=10, endpoint=False))
 num_data_vals = np.arange(start=5, stop=20, step=2)
-count_vals = [10]
-local_max_vals = [0]
-slack_prop_vals = np.linspace(0.05, 0.95, num=12, endpoint=True)
 hyperparameter_set = []
 for num_data in num_data_vals:
-    for count in count_vals:
-        for gamma in gamma_vals:
-            for loc in local_max_vals:
-                for sp in slack_prop_vals:
-                    hyperparameter_set.append((num_data, count, gamma, loc, sp))
-print("Total Search Length: ", len(hyperparameter_set))
+    for k in k_vals:
+        for t in t_vals:
+            hyperparameter_set.append((num_data, k, t))
+print("Total Search Length: ", len(hyperparameter_set), flush=True)
 accuracy_difference_threshold = 0.0025
 # print("Model,\tParameters,\tGamma,\tCount,\tNumData,\tLocalMaxima,\tSlackProp,\tAvgStdEpoch,\tAvgASWTEpoch,\tAvgStdAcc,\tAvgASWTAcc")
-# # search_hyperparameters(hyperparameter_set, accuracy_difference_threshold, model_test_accs, hp_filename)
+search_hyperparameters(hyperparameter_set, accuracy_difference_threshold, model_test_accs, hp_filename)
 # for mname in model_names:
 #     analyze_hp_grid_data(mname)
 #analyze_sample_size_dist()

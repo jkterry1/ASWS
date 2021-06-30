@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy
-from scipy.stats import shapiro, anderson, ttest_1samp
+from scipy.stats import shapiro, anderson, ttest_1samp, kurtosis, skew
 
 def smoothen2(arr, gamma, count):
     smooth = np.zeros(len(arr))
@@ -228,6 +228,15 @@ def get_max_stopping_point(model, file_suffix):
     filename = "losses/" + model + "/" + model + "_" + str(file_suffix) + ".txt"
     train_loss, train_acc, test_loss, test_acc = read_file(filename)
     return get_max_stopping_point_of_curve(test_acc)
+
+
+def measuredNormality(diffs, k_spread, t_spread):
+    k = kurtosis(diffs)
+    t = skew(diffs)
+    if k > -1*k_spread and k < k_spread and t > -1*t_spread and t < t_spread:
+        return True
+    return False
+
 
 # given a test acc curve (and hyperparams), determine whether the training should stop
 # returns True/False
